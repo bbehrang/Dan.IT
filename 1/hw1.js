@@ -76,10 +76,10 @@ Hamburger.prototype.removeTopping = function (topping) {
     try{
         const index = this.topping.indexOf(topping);
         if(index !== -1) this.topping.splice(index, 1);
-        else throw new HamburgerException("Topping does not exist");
+        else throw new Error("Topping does not exist");
     }
     catch(error){
-        throw new HamburgerException(error);
+        HamburgerException(error);
     }
 
 
@@ -186,7 +186,7 @@ Hamburger.prototype.calculateCalories = function () {
  * @constructor
  */
 function HamburgerException (error) {
-    console.log(error);
+    return error;
 };
 
 
