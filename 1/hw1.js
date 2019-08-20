@@ -36,13 +36,13 @@ function Hamburger(size, stuffing) {
 }
 
 /* Размеры, виды начинок и добавок */
-Hamburger.SIZE_SMALL = "small";
-Hamburger.SIZE_LARGE = "large";
-Hamburger.STUFFING_CHEESE = "cheese";
-Hamburger.STUFFING_SALAD =  "salad";
-Hamburger.STUFFING_POTATO =  "potato";
-Hamburger.TOPPING_MAYO =  "mayo";
-Hamburger.TOPPING_SPICE =  "spice";
+Hamburger.SIZE_SMALL = {price: 50, calories: 20};
+Hamburger.SIZE_LARGE = {price: 100, calories: 40};
+Hamburger.STUFFING_CHEESE = {price: 10, calories: 20};
+Hamburger.STUFFING_SALAD =  {price: 20, calories: 5};
+Hamburger.STUFFING_POTATO = {price: 15, calories: 10};
+Hamburger.TOPPING_MAYO = {price: 20, calories: 5};
+Hamburger.TOPPING_SPICE = {price: 15, calories: 0};
 
 /**
  * Добавить добавку к гамбургеру. Можно добавить несколько
@@ -116,30 +116,12 @@ Hamburger.prototype.getStuffing = function () {
 Hamburger.prototype.calculatePrice = function () {
     let price = 0;
 
-    if(this.size === Hamburger.SIZE_SMALL) price += 50;
-    else if(this.size === Hamburger.SIZE_LARGE) price += 100;
+    price += this.getSize().price;
+    price += this.getStuffing().price;
 
-    switch (this.stuffing) {
-        case Hamburger.STUFFING_CHEESE :
-            price += 10;
-            break;
-        case Hamburger.STUFFING_SALAD :
-            price += 20;
-            break;
-        case Hamburger.STUFFING_POTATO :
-            price += 15;
-            break;
 
-    }
-
-    this.topping.forEach(top => {
-        switch (top) {
-            case  Hamburger.TOPPING_MAYO:
-                price += 20;
-                break;
-            case Hamburger.TOPPING_SPICE:
-                price += 15;
-                break;
+    this.getToppings().forEach(top => {
+        price += top.price;
         }
     });
 
@@ -153,31 +135,16 @@ Hamburger.prototype.calculatePrice = function () {
 Hamburger.prototype.calculateCalories = function () {
     let calories = 0;
 
-    if(this.size === Hamburger.SIZE_SMALL) calories += 20;
-    else if(this.size === Hamburger.SIZE_LARGE) calories += 40;
+    calories += this.getSize().calories;
+    calories += this.getStuffing().calories;
 
-    switch (this.stuffing) {
-        case Hamburger.STUFFING_CHEESE :
-            calories += 20;
-            break;
-        case Hamburger.STUFFING_SALAD :
-            calories += 5;
-            break;
-        case Hamburger.STUFFING_POTATO :
-            calories += 10;
-            break;
 
+    this.getToppings().forEach(top => {
+        calories += top.calories;
     }
+});
 
-    this.topping.forEach(top => {
-        switch (top) {
-            case  Hamburger.TOPPING_MAYO:
-                calories += 5;
-                break;
-        }
-    });
-
-    return calories;
+return calories;
 };
 
 /**
