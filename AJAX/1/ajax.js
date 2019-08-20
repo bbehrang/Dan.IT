@@ -17,7 +17,6 @@ xhr.onload = function () {
             loader.style.display = 'none';
             container.innerHTML += liList;
 
-            let fetchedCharacters = [];
             container.addEventListener('click', function (e) {
                 if (e.target && e.target.id === 'chars') {
                     const loader = document.getElementById('overlay');
@@ -36,16 +35,16 @@ xhr.onload = function () {
                             xhr2.onload = function () {
 
                                 characterByFilm[i] = JSON.parse(xhr2.response);
-                                fetchedCharacters.push(character);
+
                                 if (characterByFilm.length == characters.length) {
                                     resolve({success: true, data: characterByFilm});
                                     loader.style.display = 'none';
                                 }
                             };
-                            xhr2.onprogress  = function(event){
+                            xhr2.onprogress = function (event) {
                                 console.log(event.loaded);
-                              //const loader = document.getElementById('overlay');
-                              //loader.style.display = 'inline-block';
+                                //const loader = document.getElementById('overlay');
+                                //loader.style.display = 'inline-block';
                             };
                             xhr2.onerror = function () {
                                 reject({success: false, data: xhr2.error});
@@ -74,8 +73,10 @@ xhr.onload = function () {
                                         } else {
                                             p.innerHTML = `<span class="movie-li-title"> ${prop}: </span>${parsedChars[prop]}`;
                                         }
-                                        if(prop === 'name') {p.classList.add("characters-name"); charDiv.appendChild(p);}
-                                        else charExtraInfoDiv.appendChild(p);
+                                        if (prop === 'name') {
+                                            p.classList.add("characters-name");
+                                            charDiv.appendChild(p);
+                                        } else charExtraInfoDiv.appendChild(p);
 
                                     }
                                 });
@@ -86,13 +87,12 @@ xhr.onload = function () {
                                 showMore.setAttribute('data-clicked', '0');
                                 showMore.addEventListener('click', function (e) {
                                     e.preventDefault();
-                                    if(e.target.getAttribute('data-clicked') == '0'){
-                                        e.target.style.transform ='rotate(180deg)';
+                                    if (e.target.getAttribute('data-clicked') == '0') {
+                                        e.target.style.transform = 'rotate(180deg)';
                                         e.target.setAttribute('data-clicked', '1');
                                         e.target.nextSibling.style.display = 'block';
-                                    }
-                                    else{
-                                        e.target.style.transform ='rotate(0deg)';
+                                    } else {
+                                        e.target.style.transform = 'rotate(0deg)';
                                         e.target.setAttribute('data-clicked', '0');
                                         e.target.nextSibling.style.display = 'none';
                                     }
